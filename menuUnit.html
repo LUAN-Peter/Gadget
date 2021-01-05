@@ -5,11 +5,124 @@
         <meta name="author" content="Peter L">
         <meta name="description" content="This is the first home work from Baidu Institute.">
         <title>Homework1</title>
-        <style type="text/css"></style>
+        <style type="text/css">
+            html{
+                font-size: width/100;
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 1rem;
+                height: 5rem;
+            }
+            .menu-element {
+                color: black;
+                /* This property is to locate the dash. */
+                position: relative;
+            }
+            .menu-element::after {
+                content: '';
+                width: 120%;
+                height: .1rem;
+                /* We have to set the position as 'absolute'. 
+                   Because the content is empty, the dash need to find an element to get its own width. */
+                position: absolute;
+                left: -10%;
+                top: 120%;
+                background-color: rgba(81, 122, 232, 1);
+                transform-origin: center;
+                transform: scale(0);
+                
+            }
+            .menu-element-active {
+                animation-name: menu-color;
+                animation-duration: .3s;
+                animation-fill-mode: forwards;
+            }
+            .menu-element-inactive {
+                animation-name: menu-color-inactive;
+                animation-duration: .3s;
+                animation-fill-mode: forwards;
+            }
+            .dash-active::after {
+                animation-name: menu-dash;
+                animation-duration: .5s;
+                animation-fill-mode: forwards;
+            }
+            .dash-inactive::after {
+                animation-name: menu-dash-inactive;
+                animation-duration: .5s;
+                animation-fill-mode: forwards;
+            }
+            @keyframes menu-color {
+                from { color: black }
+                to { color: rgba(81, 122, 232, 1); }
+            }
+            @keyframes menu-color-inactive {
+                from { color: rgba(81, 122, 232, 1); }
+                to { color: black }
+            }
+            @keyframes menu-dash {
+                from { transform: scale(0); }
+                to { transform: scale(1); }
+            }
+            @keyframes menu-dash-inactive {
+                from { transform: scale(1); }
+                to { transform: scale(0); }
+            }
+            .menu-element:hover::after {
+                transform: scale(1);
+            }
+            .menu-btn {
+                border-style: solid;
+                border-width: 0;
+                border-color: #888;
+                border-radius: .4rem;
+                box-shadow: .05rem .05rem .1rem #888;
+                padding: 0 .5rem;
+            }
+        </style>
     </head>
     <body>
+        <div class="container">
+            <div href="#" class="menu-element">测试中</div>
+            <button class="menu-btn" onclick="changePattern()">切换样式</button>
+        </div>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
         <script>
-
+            let changePattern = function() {
+                // Store the tag with closure(闭包).
+                let tag = false; // State
+                return function () {
+                    let menuElems = $(".menu-element");
+                    let menuDash = $(".menu-element");
+                    if (tag) {
+                        // Active
+                        menuElems.removeClass("menu-element-active");
+                        menuElems.removeClass("dash-active");
+                        menuElems.addClass("menu-element-inactive");
+                        menuElems.addClass("dash-inactive");
+                        console.log(tag);
+                        tag = false;
+                        // Why do I set the boolean obviously?
+                        // It reminds me of a bug from the LOL, 
+                        // Kindred(千珏) and Tryndamere(蛮王) use the same Boolean，
+                        // And if they used their R at the same time, Tryndamere could be killed during the effective time.
+                        // So we should not just NOT it.
+                    } else {
+                        // Inactive
+                        menuElems.removeClass("menu-element-inactive");
+                        menuElems.removeClass("dash-inactive");
+                        menuElems.addClass("menu-element-active");
+                        menuElems.addClass("dash-active");
+                        console.log(tag);
+                        tag = true;
+                    }
+                }
+            }();
+            
         </script>
     </body>
 </html>
